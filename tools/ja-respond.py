@@ -144,8 +144,9 @@ def speak_japanese(text: str):
             wav = resp.read()
 
         # Step 3 — play through PipeWire via paplay
+        # No filename arg — paplay reads from stdin by default
         proc = subprocess.Popen(
-            ["paplay", "--stream-name=ja-respond", "-"],
+            ["paplay", "--stream-name=ja-respond"],
             stdin=subprocess.PIPE,
         )
         proc.stdin.write(wav)
@@ -174,11 +175,14 @@ class GhostInput:
         self._timer: threading.Timer | None = None
         self._lock        = threading.Lock()
         self._render_lock = threading.Lock()
-        self._on_replay   = on_replay   # callable invoked by Ctrl+P
+        self._on_replay   = on_replay
+        self._stopped     = False  # set on exit so background threads don't write to stdout
 
     # ── Rendering ─────────────────────────────────────────────────────────────
 
     def _render(self, background: bool = False):
+        if self._stopped:
+            return
         if background:
             acquired = self._render_lock.acquire(blocking=False)
             if not acquired:
@@ -241,7 +245,8 @@ class GhostInput:
     def readline(self) -> str | None:
         fd  = sys.stdin.fileno()
         old = termios.tcgetattr(fd)
-        self.typed = ""
+        self.typed    = ""
+        self._stopped = False
         with self._lock:
             self._suggestion   = ""
             self._fetch_target = ""
@@ -296,6 +301,7 @@ class GhostInput:
                     self._render()
 
         finally:
+            self._stopped = True
             termios.tcsetattr(fd, termios.TCSADRAIN, old)
             if self._timer:
                 self._timer.cancel()
