@@ -85,7 +85,7 @@ def stream_translate(text: str) -> str:
                 if data == "[DONE]":
                     break
                 chunk = json.loads(data)
-                token = chunk["choices"][0]["delta"].get("content", "")
+                token = chunk["choices"][0]["delta"].get("content") or ""
                 tokens.append(token)
                 print(token, end="", flush=True)
     except URLError:
@@ -341,4 +341,12 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import traceback
+    LOG = "/tmp/ja-respond.log"
+    try:
+        main()
+    except Exception:
+        with open(LOG, "w") as f:
+            traceback.print_exc(file=f)
+        print(f"\nCrashed — see {LOG}", file=sys.stderr)
+        input("Press Enter to close...")  # keep window open
