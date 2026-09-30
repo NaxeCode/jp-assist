@@ -1,3 +1,5 @@
+<img src=".github/brand/logo.svg" width="80" alt="" />
+
 # jp-assist
 
 Local Japanese helpers for Discord voice calls on Linux: live call transcription with whisper.cpp, plus two terminal translators backed by a local llama.cpp server.
@@ -64,6 +66,10 @@ bind = SUPER, J, exec, ~/whisper.cpp/tools/ja-launch.sh
 ## Status
 
 Personal tooling, used on one machine. Device names in `start-whisper.sh` (`WEBRTC VoiceEngine`, `Scarlett Solo USB`) and the GPU target are hardcoded for that setup.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
 
 ---
 <sub>Built by [Aladdin Ali](https://github.com/NaxeCode) · [naxecode.github.io](https://naxecode.github.io)</sub>
