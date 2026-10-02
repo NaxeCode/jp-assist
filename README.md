@@ -67,6 +67,14 @@ bind = SUPER, J, exec, ~/whisper.cpp/tools/ja-launch.sh
 
 Personal tooling, used on one machine. Device names in `start-whisper.sh` (`WEBRTC VoiceEngine`, `Scarlett Solo USB`) and the GPU target are hardcoded for that setup.
 
+## How this project is run
+
+[![tracked in Linear](.github/brand/badges/run-linear.svg)](https://linear.app) [![AI-reviewed · Codex](.github/brand/badges/run-codex.svg)](#how-this-project-is-run) [![PR-only main](.github/brand/badges/run-main.svg)](#how-this-project-is-run)
+
+- **Planning:** tracked in Linear as initiatives → projects → milestones → issues; branch names and PR titles carry the issue ID.
+- **Review:** every pull request gets a Codex review before merge.
+- **Guardrails:** the default branch changes only through pull requests (GitHub ruleset).
+
 ## License
 
 MIT. See [LICENSE](LICENSE).
